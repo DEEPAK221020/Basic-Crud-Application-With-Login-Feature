@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var bodyparser =require('body-parser');
 const bcrypt = require('bcrypt');
 const saltround = 10 ;
+var jwt = require('jsonwebtoken');
 const db = mysql.createConnection({
 	host:'localhost',
 	user:'root',
@@ -140,7 +141,7 @@ app.post("/login",(req,res)=>{
 			
 		});
 	})
-	res.send(resolve);3
+	res.send(resolve);
 		}
 		else
 		{
@@ -169,8 +170,24 @@ app.post('/checkin',(req,res)=>{
 					if(response){
 						// console.log(error);
 
-						res.send(result);
-						console.log(result);
+				var token = jwt.sign({ user: result }, "secretkey" );
+
+						// 	res.json({
+						
+						// 	  token
+						
+						// 	});
+						// 	console.log(token);
+						
+						//   });
+				var tokes = {
+					user : result,
+					token:token
+				}
+
+						// res.send(result);
+						res.send(tokes);
+						console.log(tokes);
 					}
 					else{
 						res.send({message:"wrong username and password"})
@@ -187,6 +204,19 @@ app.post('/checkin',(req,res)=>{
 			// res.send(result);
 	});
 })
+
+app.post('/tokenvalidator' , (req,res)=>{
+	var {token}=req.body;
+	jwt.verify(token, "secretkey" , (err, verifiedJwt) => {
+		if(err){
+		  res.send(err.message)
+		}else{
+		  res.send(verifiedJwt)
+		  console.log("let us verify the jwt : " , verifiedJwt);
+		}
+	  })
+	})
+
 app.get('/',(req,res)=>{
 	res.send("hello world");
 })
