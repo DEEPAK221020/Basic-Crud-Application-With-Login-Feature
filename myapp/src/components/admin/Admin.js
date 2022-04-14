@@ -23,6 +23,8 @@ function admin() {
 }
 }
 }>LOG_OUT</p></div> : <p><Link to='/login' className='sec1'>LOGIN FORM</Link></p>}</div></div>
+
+<div className='col part2 card d-flex flex-column justify-content-center align-items-center'> <div className='card-body sec2'> <Link to='/logupdate' className='sec1'>Edit The Login Details</Link></div></div>
 </div>
 	</div>
   )

@@ -11,6 +11,7 @@ import Login from './components/admin/Login';
 import ErrorPage from "./components/ErrorPage";
 import axios from "axios";
 import { set } from "date-fns";
+import { Logedit } from "./components/admin/Logedit";
 
 const token = localStorage.getItem('token');
 // var dummy ;
@@ -57,13 +58,16 @@ function App() {
   return (
     <Router>
     <Routes>
+    
    {/* <Route exact path= {token ? '/admin': '/'}  /> */}
    {/* <Context.Provider val={val}></Context.Provider> */}
-    <Route exact path ='/' element={<Login/>} />
+  { localStorage.getItem('IAT') ?  <Route index element={<Admin/>}/> : <Route index element={<Login/>}/>}
+  {/* <Route exact path ='/' element={<Login/>}/> */}
     <Route exact path='/admin' element={<PrivateRoute element={<Admin/>} />} />
       <Route exact path='/user' element={<PrivateRoute element={<User/>}/>} />
       <Route exact path='/update/:id' element={<PrivateRoute element={<User/>}/>} />
       <Route exact path='/view' element={<PrivateRoute element={<View/>}/>} />
+      <Route exact path="/logupdate" element={<PrivateRoute element={<Logedit/>}/>}/>
       <Route path='*' element={<PrivateRoute element={<ErrorPage/>}/>}/>
       {/* <Route from='*' to='/404' /> */}
     </Routes>
